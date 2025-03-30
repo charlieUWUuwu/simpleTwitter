@@ -1,0 +1,8 @@
+# regular
+__pycache__/
+.env
+
+# database
+mysql/
+
+
