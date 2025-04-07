@@ -7,16 +7,16 @@ tweets_bp = Blueprint('tweets', __name__)
 @tweets_bp.route('/', methods=['GET'])
 def get_all_tweets():
     tweets = TweetsService.get_all_tweets()
-    if tweets:
-        return jsonify(tweets), 200
-    return jsonify({"msg": "No posts exist"}), 200
+    if tweets is None:
+        return jsonify({"msg": "No posts exist"}), 200
+    return jsonify(tweets), 200
 
 @tweets_bp.route('/<int:user_id>', methods=['GET'])
 def get_tweet_by_userid(user_id):
     tweets = TweetsService.get_tweet_by_userid(user_id)
-    if tweets:
-        return jsonify(tweets), 200
-    return jsonify({"msg": "No posts exist"}), 200
+    if tweets is None:
+        return jsonify({"msg": "No posts exist"}), 200
+    return jsonify(tweets), 200
 
 @tweets_bp.route('/create', methods=['POST'])
 def create_tweet():
@@ -26,7 +26,6 @@ def create_tweet():
 
     if user_id is None or content is None:
         return jsonify({"msg": "Missing required fields"}), 400
-
-    if TweetsService.create_tweet(user_id, content):
-        return jsonify({"msg": "Tweet created successfully"}), 201
-    return jsonify({"msg": "Tweet creation failed"}), 400
+    if TweetsService.create_tweet(user_id, content) is None:
+        return jsonify({"msg": "Tweet creation failed"}), 400
+    return jsonify({"msg": "Tweet created successfully"}), 201

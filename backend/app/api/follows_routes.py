@@ -7,10 +7,9 @@ follows_bp = Blueprint('follows', __name__)
 def get_one_follow(follow_id, followed_id):
     if follow_id is None or followed_id is None:
         return jsonify({"msg": "Missing required fields"}), 400
-    
-    if FollowsService.get_follow(follow_id, followed_id):
-        return jsonify({"msg": "Successful"}), 200
-    return jsonify({"msg": "Follow not found"}), 404
+    if not FollowsService.get_follow(follow_id, followed_id):
+        return jsonify({"msg": "Follow not found"}), 404
+    return jsonify({"msg": "Successful"}), 200
 
 @follows_bp.route('/follow', methods=['POST'])
 def follow_user():
@@ -20,10 +19,10 @@ def follow_user():
 
     if follow_id is None or followed_id is None:
         return jsonify({"msg": "Missing required fields"}), 400
-
-    if FollowsService.follow_user(follow_id, followed_id):
-        return jsonify({"msg": "Followed successfully"}), 201
-    return jsonify({"msg": "Follow failed"}), 400
+    if not FollowsService.follow_user(follow_id, followed_id):
+        return jsonify({"msg": "Follow failed"}), 400
+    
+    return jsonify({"msg": "Followed successfully"}), 201
 
 @follows_bp.route('/unfollow', methods=['DELETE'])
 def unfollow_user():
@@ -33,7 +32,7 @@ def unfollow_user():
     
     if follow_id is None or followed_id is None:
         return jsonify({"msg": "Missing required fields"}), 400
-
-    if FollowsService.delete_follow(follow_id, followed_id):
-        return jsonify({"msg": "Followed successfully"}), 201
-    return jsonify({"msg": "Follow not found"}), 400
+    if not FollowsService.delete_follow(follow_id, followed_id):
+        return jsonify({"msg": "Follow not found"}), 400
+    
+    return jsonify({"msg": "Followed successfully"}), 201
