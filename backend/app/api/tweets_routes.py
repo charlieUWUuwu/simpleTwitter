@@ -18,7 +18,7 @@ def get_tweet_by_userid(user_id):
         return jsonify({"msg": "No posts exist"}), 200
     return jsonify(tweets), 200
 
-@tweets_bp.route('/create', methods=['POST'])
+@tweets_bp.route('/tweet', methods=['POST'])
 def create_tweet():
     data = request.json
     user_id = data.get('user_id')
