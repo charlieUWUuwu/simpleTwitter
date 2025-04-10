@@ -1,14 +1,16 @@
-from config import config
+from config import get_config
 import pymysql
 
+config = get_config()
+
 DB_CONFIG = {
-    "host": config["development"].MYSQL_HOST,
-    "user": config["development"].MYSQL_USER,
-    "password": config["development"].MYSQL_PASSWORD,
-    "database": config["development"].MYSQL_DB,
-    "port": config["development"].MYSQL_PORT,
-    "charset": config["development"].CHARSET,
-    "cursorclass": pymysql.cursors.DictCursor
+    "host": config.MYSQL_HOST,
+    "user": config.MYSQL_USER,
+    "password": config.MYSQL_PASSWORD,
+    "database": config.MYSQL_DB,
+    "port": config.MYSQL_PORT,
+    "charset": config.MYSQL_CHARSET,
+    "cursorclass": config.MYSQL_CURSORCLASS
 }
 
 user_input = input("你確定真的要重新初始化資料庫嗎？確定的話請打：「I'm really super clear what I'm doing」\n")

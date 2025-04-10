@@ -1,4 +1,5 @@
 import os
+import pymysql
 from dotenv import load_dotenv
 
 dotenv_path = os.path.join(os.path.dirname(os.path.dirname(__file__)), '.env')
@@ -10,9 +11,10 @@ class Config:
     MYSQL_HOST = "localhost"
     MYSQL_PORT = 3307
     MYSQL_DB = "db_twitter"
-    CHARSET = "utf8mb4"
+    MYSQL_CHARSET = "utf8mb4"
     MYSQL_USER = os.getenv("MYSQL_USER")
     MYSQL_PASSWORD = os.getenv("MYSQL_PASSWORD")
+    MYSQL_CURSORCLASS=pymysql.cursors.DictCursor  # 查詢結果以字典形式回傳
 
 class DevelopmentConfig(Config):
     DEBUG = True
@@ -20,8 +22,12 @@ class DevelopmentConfig(Config):
 class ProductionConfig(Config):
     DEBUG = False
 
-config = {
-    "development": DevelopmentConfig,
-    "production": ProductionConfig,
-    "default": DevelopmentConfig 
-}
+
+def get_config():
+    if os.getenv("ENV_MODE") == "production":
+        return ProductionConfig
+    elif os.getenv("ENV_MODE") == "development":
+        return DevelopmentConfig
+    else:
+        # default
+        return DevelopmentConfig

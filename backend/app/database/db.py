@@ -2,9 +2,9 @@
 
 import pymysql
 from dbutils.pooled_db import PooledDB
-from config import config
+from config import get_config
 
-db_config = config["development"]
+config = get_config()
 
 # 初始化連線池（只需初始化一次，供全域使用）
 POOL = PooledDB(
@@ -15,13 +15,13 @@ POOL = PooledDB(
     blocking=True,                # 若連線數已達上限，是否等待可用連線（True 代表等待）
     maxusage=None,                # 單一連線的最大重複使用次數，None 表示不限制
     ping=0,                       # 檢查資料庫連線是否可用，0 表示從不檢查
-    host=db_config.MYSQL_HOST,
-    user=db_config.MYSQL_USER,
-    password=db_config.MYSQL_PASSWORD,
-    database=db_config.MYSQL_DB,
-    port=db_config.MYSQL_PORT,
-    charset=db_config.CHARSET,
-    cursorclass=pymysql.cursors.DictCursor  # 查詢結果以字典形式回傳
+    host=config.MYSQL_HOST,
+    user=config.MYSQL_USER,
+    password=config.MYSQL_PASSWORD,
+    database=config.MYSQL_DB,
+    port=config.MYSQL_PORT,
+    charset=config.MYSQL_CHARSET,
+    cursorclass=config.MYSQL_CURSORCLASS
 )
 
 class Database:

@@ -2,10 +2,12 @@ from flask import Flask
 from app.api.users_routes import users_bp
 from app.api.tweets_routes import tweets_bp
 from app.api.follows_routes import follows_bp
-from config import config 
+from config import get_config 
+
+config = get_config()
 
 app = Flask(__name__)
-app.config.from_object(config["development"])
+app.config.from_object(config)
 
 app.register_blueprint(users_bp, url_prefix='/users')
 app.register_blueprint(tweets_bp, url_prefix='/tweets')
