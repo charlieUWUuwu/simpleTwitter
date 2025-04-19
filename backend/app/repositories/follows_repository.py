@@ -14,6 +14,19 @@ class FollowsRepository:
             connection.close()
 
     @staticmethod
+    def get_all_follows():
+        connection = Database.get_db_connection()
+        try:
+            with connection.cursor() as cursor:
+                sql = "SELECT * FROM Follows"
+                cursor.execute(sql)
+                follows = cursor.fetchall()
+                return follows
+        finally:
+            connection.close()
+    
+
+    @staticmethod
     def create_follow(user_id1: int, user_id2: int):
         connection = Database.get_db_connection()        
         try:
