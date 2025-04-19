@@ -54,11 +54,11 @@ cursor.execute(
 cursor.execute(
     """
     CREATE TABLE IF NOT EXISTS Follows(
-        follow_id INT NOT NULL,
-        followed_id INT NOT NULL,
-        PRIMARY KEY (follow_id, followed_id),
-        FOREIGN KEY (follow_id) REFERENCES Users(user_id) ON DELETE CASCADE,
-        FOREIGN KEY (followed_id) REFERENCES Users(user_id) ON DELETE CASCADE
+        user_id1 INT NOT NULL,
+        user_id2 INT NOT NULL,
+        PRIMARY KEY (user_id1, user_id2),
+        FOREIGN KEY (user_id1) REFERENCES Users(user_id) ON DELETE CASCADE,
+        FOREIGN KEY (user_id2) REFERENCES Users(user_id) ON DELETE CASCADE
     )
     """
 )

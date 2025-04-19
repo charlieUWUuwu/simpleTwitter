@@ -2,36 +2,37 @@ from app.database.db import Database
 
 class FollowsRepository:
     @staticmethod
-    def get_follow(follow_id: int, followed_id: int):
+    def get_follow(user_id1: int, user_id2: int):
         connection = Database.get_db_connection()
         try:
             with connection.cursor() as cursor:
-                sql = "SELECT * FROM Follows WHERE follow_id = %s AND followed_id = %s"
-                cursor.execute(sql, (follow_id, followed_id))
-                return cursor.fetchone()
+                sql = "SELECT * FROM Follows WHERE user_id1 = %s AND user_id2 = %s"
+                cursor.execute(sql, (user_id1, user_id2))
+                follow = cursor.fetchone()
+                return follow
         finally:
             connection.close()
 
     @staticmethod
-    def create_follow(follow_id: int, followed_id: int):
+    def create_follow(user_id1: int, user_id2: int):
         connection = Database.get_db_connection()        
         try:
             with connection.cursor() as cursor:
-                sql = "INSERT INTO Follows (follow_id, followed_id) VALUES (%s, %s)"
-                cursor.execute(sql, (follow_id, followed_id))
+                sql = "INSERT INTO Follows (user_id1, user_id2) VALUES (%s, %s)"
+                cursor.execute(sql, (user_id1, user_id2))
                 connection.commit()
                 
-                return {"follow_id": follow_id, "followed_id": followed_id}
+                return {"user_id1": user_id1, "user_id2": user_id2}
         finally:
             connection.close()
 
     @staticmethod
-    def delete_follow(follow_id: int, followed_id: int):
+    def delete_follow(user_id1: int, user_id2: int):
         connection = Database.get_db_connection()        
         try:
             with connection.cursor() as cursor:
-                sql = "DELETE FROM Follows WHERE follow_id = %s AND followed_id = %s"
-                cursor.execute(sql, (follow_id, followed_id))
+                sql = "DELETE FROM Follows WHERE user_id1 = %s AND user_id2 = %s"
+                cursor.execute(sql, (user_id1, user_id2))
                 connection.commit()
         finally:
             connection.close()
