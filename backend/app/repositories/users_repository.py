@@ -29,7 +29,7 @@ class UsersRepository:
                 sql = "SELECT * FROM Users WHERE user_id = %s"
                 cursor.execute(sql, (user_id,))
                 user = cursor.fetchone()
-                return user or None
+                return user
         finally:
             connection.close()
 
@@ -41,7 +41,7 @@ class UsersRepository:
                 sql = "SELECT * FROM Users WHERE email = %s"
                 cursor.execute(sql, (email,))
                 user = cursor.fetchone()
-                return user or None
+                return user
         finally:
             connection.close()
 
@@ -53,9 +53,7 @@ class UsersRepository:
                 sql = "SELECT * FROM Users"
                 cursor.execute(sql)
                 users = cursor.fetchall()
-                if len(users) > 0:
-                    return users
-                return None
+                return users
         finally:
             connection.close()
 
