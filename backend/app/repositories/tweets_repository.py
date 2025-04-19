@@ -17,14 +17,28 @@ class TweetsRepository:
             connection.close()
 
     @staticmethod
-    def get_tweet_by_userid(user_id: int):
+    def get_tweets_by_userid(user_id: int):
         # 獲取特定用戶的所有推文
         connection = Database.get_db_connection()
         try:
             with connection.cursor() as cursor:
                 sql = "SELECT * FROM Tweets WHERE user_id = %s"
                 cursor.execute(sql, (user_id,))
-                return cursor.fetchone()
+                tweets = cursor.fetchall()
+                return tweets
+        finally:
+            connection.close()
+
+    @staticmethod
+    def get_tweet_by_id(tweet_id: int):
+        # 獲取特定用戶的所有推文
+        connection = Database.get_db_connection()
+        try:
+            with connection.cursor() as cursor:
+                sql = "SELECT * FROM Tweets WHERE tweet_id = %s"
+                cursor.execute(sql, (tweet_id,))
+                tweet = cursor.fetchone()
+                return tweet
         finally:
             connection.close()
 
@@ -36,6 +50,18 @@ class TweetsRepository:
             with connection.cursor() as cursor:
                 sql = "SELECT * FROM Tweets"
                 cursor.execute(sql)
-                return cursor.fetchall()
+                tweets = cursor.fetchall()
+                return tweets
+        finally:
+            connection.close()
+
+    @staticmethod
+    def delete_tweet(tweet_id: int):
+        connection = Database.get_db_connection()
+        try:
+            with connection.cursor() as cursor:
+                sql = "DELETE FROM Tweets WHERE tweet_id = %s"
+                cursor.execute(sql, (tweet_id,))
+                connection.commit()
         finally:
             connection.close()
