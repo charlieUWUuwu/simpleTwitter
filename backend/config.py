@@ -7,7 +7,7 @@ load_dotenv(dotenv_path)
 
 class Config:
     APP_HOST = "localhost"
-    APP_PORT = 5000
+    APP_PORT = 5001
     MYSQL_HOST = "localhost"
     MYSQL_PORT = 3307
     MYSQL_DB = "db_twitter"
