@@ -15,6 +15,8 @@ class Config:
     MYSQL_USER = os.getenv("MYSQL_USER")
     MYSQL_PASSWORD = os.getenv("MYSQL_PASSWORD")
     MYSQL_CURSORCLASS=pymysql.cursors.DictCursor  # 查詢結果以字典形式回傳
+    JWT_SECRET_KEY=os.getenv("JWT_SECRET_KEY", "fallback-secret")
+    JWT_ALGORITHM = os.getenv("JWT_ALGORITHM")
 
 class DevelopmentConfig(Config):
     DEBUG = True

@@ -35,6 +35,7 @@ cursor.execute(
         email VARCHAR(70) NOT NULL UNIQUE,
         salt VARCHAR(50) NOT NULL,
         password VARCHAR(255) NOT NULL,
+        role ENUM('user', 'admin') NOT NULL DEFAULT 'user',
         PRIMARY KEY (user_id)
     )
     """

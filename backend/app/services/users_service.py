@@ -22,7 +22,7 @@ class UsersService:
         return user
 
     @staticmethod
-    def create_user(user_name: str, email: str, password: str):
+    def create_user(user_name: str, email: str, password: str, role: str):
         # 檢查 email 是否已經被註冊過
         user = UsersRepository.get_user_by_email(email)
         if user:
@@ -30,7 +30,7 @@ class UsersService:
         
         salt = secrets.token_hex(16)  # 生成 16 位的隨機 salt
         hashed_password = sha256((password + salt).encode('utf-8')).hexdigest()
-        user = UsersRepository.create_user(user_name, email, salt, hashed_password)
+        user = UsersRepository.create_user(user_name, email, salt, hashed_password, role)
         user.pop('password')
         user.pop('salt')
         return user
