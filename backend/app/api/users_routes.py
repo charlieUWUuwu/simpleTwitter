@@ -40,7 +40,7 @@ def login():
 
     try:
         user = UsersService.login(email, password)
-        user["exp"] = datetime.now(timezone.utc) + timedelta(seconds=20) # 新增 exp 欄位（10秒後過期）
+        user["exp"] = datetime.now(timezone.utc) + timedelta(hours=2) # 新增 exp 欄位（2小時後過期）
 
         # 登入成功後產生 JWT Token
         token = jwt.encode(user, SECRET_KEY, algorithm=ALGORITHM)
