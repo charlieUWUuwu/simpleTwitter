@@ -47,10 +47,11 @@ def create_user():
     user_name = data.get('user_name')
     email = data.get('email')
     password = data.get('password')
+    role = data.get('role', 'user')
 
     # 檢查格式是否符合設定
     validator = Validator()
-    validator.required([user_name, email, password])
+    validator.required([user_name, email, password, role])
     validator.check_email(email)
     validator.check_password(password)
     errors = validator.get_errors()
@@ -58,7 +59,7 @@ def create_user():
         return jsonify({"success": False, "msg": str(errors[0])}), 400
 
     try:
-        user = UsersService.create_user(user_name, email, password)
+        user = UsersService.create_user(user_name, email, password, role)
         return jsonify({"success": True, "msg": "Create successfully", "data": user}), 201
     except ValueError as e:
         return jsonify({"success": False, "msg": str(e)}), 400

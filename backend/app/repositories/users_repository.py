@@ -1,13 +1,18 @@
 from app.database.db import Database
+from app.utils.enums import UserRole
 
 class UsersRepository:
     @staticmethod
-    def create_user(name: str, email: str, salt: str, password: str):
+    def create_user(name: str, email: str, salt: str, password: str, role: str = UserRole.USER.value):
         connection = Database.get_db_connection()
         try:
+            # 確保傳入的角色是合法的 Enum 成員
+            if role not in [r.value for r in UserRole]:
+                return None
+
             with connection.cursor() as cursor:
-                sql = "INSERT INTO Users (name, email, salt, password) VALUES (%s, %s, %s, %s)"
-                cursor.execute(sql, (name, email, salt, password))
+                sql = "INSERT INTO Users (name, email, salt, password, role) VALUES (%s, %s, %s, %s, %s)"
+                cursor.execute(sql, (name, email, salt, password, role))
                 connection.commit()
                 
                 user_id = cursor.lastrowid
@@ -16,7 +21,8 @@ class UsersRepository:
                     "name": name, 
                     "email": email, 
                     "salt": salt, 
-                    "password": password
+                    "password": password,
+                    "role": role
                 }
         finally:
             connection.close()
