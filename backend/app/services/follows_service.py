@@ -1,6 +1,6 @@
 from app.repositories.follows_repository import FollowsRepository
 from app.repositories.users_repository import UsersRepository
-from app.exceptions import UserNotFoundError, FollowNotFoundError
+from app.utils.exceptions import UserNotFoundError, FollowNotFoundError
 
 class FollowsService:
     @staticmethod

@@ -1,6 +1,6 @@
 from flask import Blueprint, request, jsonify
 from app.services.tweets_service import TweetsService
-from app.exceptions import UserNotFoundError, TweetNotFoundError
+from app.utils.exceptions import UserNotFoundError, TweetNotFoundError
 
 tweets_bp = Blueprint('tweets', __name__)
 

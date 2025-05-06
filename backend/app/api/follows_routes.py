@@ -1,6 +1,6 @@
 from flask import Blueprint, request, jsonify
 from app.services.follows_service import FollowsService
-from app.exceptions import UserNotFoundError, FollowNotFoundError
+from app.utils.exceptions import UserNotFoundError, FollowNotFoundError
 
 follows_bp = Blueprint('follows', __name__)
 
