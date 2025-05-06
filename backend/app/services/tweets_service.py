@@ -1,7 +1,7 @@
 from datetime import datetime
 from app.repositories.tweets_repository import TweetsRepository
 from app.repositories.users_repository import UsersRepository
-from app.exceptions import UserNotFoundError, TweetNotFoundError
+from app.utils.exceptions import UserNotFoundError, TweetNotFoundError
 
 class TweetsService:
     @staticmethod

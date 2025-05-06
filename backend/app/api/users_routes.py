@@ -3,7 +3,7 @@ import jwt
 from datetime import datetime, timedelta, timezone
 from app.services.users_service import UsersService
 from app.utils.validator import Validator
-from app.exceptions import UserNotFoundError
+from app.utils.exceptions import UserNotFoundError
 from app.utils.auth_decorators import login_required, admin_required
 import os
 

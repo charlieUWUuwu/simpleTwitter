@@ -1,7 +1,7 @@
 import secrets
 from hashlib import sha256
 from app.repositories.users_repository import UsersRepository
-from app.exceptions import UserNotFoundError
+from app.utils.exceptions import UserNotFoundError
 
 # 若執行失敗或是抓取不到用戶資料，回傳 None
 
