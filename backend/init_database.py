@@ -1,5 +1,6 @@
-from config import get_config
 import pymysql
+
+from config import get_config
 
 config = get_config()
 
@@ -10,10 +11,12 @@ DB_CONFIG = {
     "database": config.MYSQL_DB,
     "port": config.MYSQL_PORT,
     "charset": config.MYSQL_CHARSET,
-    "cursorclass": config.MYSQL_CURSORCLASS
+    "cursorclass": config.MYSQL_CURSORCLASS,
 }
 
-user_input = input("你確定真的要重新初始化資料庫嗎？確定的話請打：「I'm really super clear what I'm doing」\n")
+user_input = input(
+    "你確定真的要重新初始化資料庫嗎？確定的話請打：「I'm really super clear what I'm doing」\n"
+)
 if user_input != "I'm really super clear what I'm doing":
     print("拒絕初始化資料庫")
     exit(0)

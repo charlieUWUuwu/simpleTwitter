@@ -1,3 +1,10 @@
-class UserNotFoundError(Exception): pass
-class FollowNotFoundError(Exception): pass
-class TweetNotFoundError(Exception): pass
+class UserNotFoundError(Exception):
+    pass
+
+
+class FollowNotFoundError(Exception):
+    pass
+
+
+class TweetNotFoundError(Exception):
+    pass

@@ -1,18 +1,24 @@
 from app.database.db import Database
 
+
 class TweetsRepository:
     @staticmethod
     def create_tweet(user_id: int, content: str, creation_time: str):
-        connection = Database.get_db_connection()        
+        connection = Database.get_db_connection()
         try:
             with connection.cursor() as cursor:
                 sql = "INSERT INTO Tweets (user_id, creation_time, content) VALUES (%s, %s, %s)"
                 cursor.execute(sql, (user_id, creation_time, content))
                 connection.commit()
-                
+
                 # 獲取最近一次 insert 操作後自動生成的 id
                 tweet_id = cursor.lastrowid
-                return {"tweet_id": tweet_id, "user_id": user_id, "content": content, "creation_time": creation_time}
+                return {
+                    "tweet_id": tweet_id,
+                    "user_id": user_id,
+                    "content": content,
+                    "creation_time": creation_time,
+                }
         finally:
             connection.close()
 

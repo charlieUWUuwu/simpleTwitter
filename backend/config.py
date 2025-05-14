@@ -1,9 +1,11 @@
 import os
+
 import pymysql
 from dotenv import load_dotenv
 
-dotenv_path = os.path.join(os.path.dirname(os.path.dirname(__file__)), '.env')
+dotenv_path = os.path.join(os.path.dirname(os.path.dirname(__file__)), ".env")
 load_dotenv(dotenv_path)
+
 
 class Config:
     APP_HOST = "localhost"
@@ -14,12 +16,14 @@ class Config:
     MYSQL_CHARSET = "utf8mb4"
     MYSQL_USER = os.getenv("MYSQL_USER")
     MYSQL_PASSWORD = os.getenv("MYSQL_PASSWORD")
-    MYSQL_CURSORCLASS=pymysql.cursors.DictCursor  # 查詢結果以字典形式回傳
-    JWT_SECRET_KEY=os.getenv("JWT_SECRET_KEY", "fallback-secret")
+    MYSQL_CURSORCLASS = pymysql.cursors.DictCursor  # 查詢結果以字典形式回傳
+    JWT_SECRET_KEY = os.getenv("JWT_SECRET_KEY", "fallback-secret")
     JWT_ALGORITHM = os.getenv("JWT_ALGORITHM")
+
 
 class DevelopmentConfig(Config):
     DEBUG = True
+
 
 class ProductionConfig(Config):
     DEBUG = False

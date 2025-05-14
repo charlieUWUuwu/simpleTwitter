@@ -1,6 +1,9 @@
 # error_handlers.py
 from flask import jsonify
-from app.utils.exceptions import UserNotFoundError, FollowNotFoundError, TweetNotFoundError
+
+from app.utils.exceptions import (FollowNotFoundError, TweetNotFoundError,
+                                  UserNotFoundError)
+
 
 def register_error_handlers(app):
     @app.errorhandler(UserNotFoundError)

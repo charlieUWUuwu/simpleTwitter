@@ -1,16 +1,19 @@
-from flask import Blueprint, request, jsonify
-import jwt
-from datetime import datetime, timedelta, timezone
-from app.services.users_service import UsersService
-from app.utils.validator import Validator
-from app.utils.auth_decorators import login_required, admin_required
 import os
+from datetime import datetime, timedelta, timezone
 
-users_bp = Blueprint('users', __name__)
+import jwt
+from flask import Blueprint, jsonify, request
+
+from app.services.users_service import UsersService
+from app.utils.auth_decorators import admin_required, login_required
+from app.utils.validator import Validator
+
+users_bp = Blueprint("users", __name__)
 SECRET_KEY = os.getenv("JWT_SECRET_KEY")
 ALGORITHM = os.getenv("JWT_ALGORITHM")
 
-@users_bp.route('/', methods=['GET'])
+
+@users_bp.route("/", methods=["GET"])
 @login_required
 @admin_required
 def get_all_users():
@@ -18,20 +21,22 @@ def get_all_users():
     return jsonify({"success": True, "msg": "Login successfully", "data": users}), 200
 
 
-@users_bp.route('/login', methods=['POST'])
+@users_bp.route("/login", methods=["POST"])
 def login():
     data = request.json
-    email = data.get('email')
-    password = data.get('password')
+    email = data.get("email")
+    password = data.get("password")
 
     validator = Validator()
     validator.required([email, password])
     errors = validator.get_errors()
     if len(errors) > 0:
         return jsonify({"success": False, "msg": str(errors[0])}), 400
-    
+
     user = UsersService.login(email, password)
-    user["exp"] = datetime.now(timezone.utc) + timedelta(hours=2) # 新增 exp 欄位（2小時後過期）
+    user["exp"] = datetime.now(timezone.utc) + timedelta(
+        hours=2
+    )  # 新增 exp 欄位（2小時後過期）
 
     # 登入成功後產生 JWT Token
     token = jwt.encode(user, SECRET_KEY, algorithm=ALGORITHM)
@@ -39,13 +44,13 @@ def login():
     return jsonify({"success": True, "msg": "Login successfully", "token": token}), 200
 
 
-@users_bp.route('/register', methods=['POST'])
+@users_bp.route("/register", methods=["POST"])
 def create_user():
     data = request.json
-    user_name = data.get('user_name')
-    email = data.get('email')
-    password = data.get('password')
-    role = data.get('role', 'user')
+    user_name = data.get("user_name")
+    email = data.get("email")
+    password = data.get("password")
+    role = data.get("role", "user")
 
     # 檢查格式是否符合設定
     validator = Validator()
@@ -59,13 +64,15 @@ def create_user():
     user = UsersService.create_user(user_name, email, password, role)
     return jsonify({"success": True, "msg": "Create successfully", "data": user}), 201
 
-@users_bp.route('/<int:user_id>', methods=['GET'])
+
+@users_bp.route("/<int:user_id>", methods=["GET"])
 @login_required
 def get_user_by_id(user_id):
     user = UsersService.get_user_by_id(user_id)
     return jsonify({"success": True, "msg": "Get successfully", "data": user}), 200
 
-@users_bp.route('/<int:user_id>', methods=['DELETE'])
+
+@users_bp.route("/<int:user_id>", methods=["DELETE"])
 @login_required
 @admin_required
 def delete_user(user_id):
