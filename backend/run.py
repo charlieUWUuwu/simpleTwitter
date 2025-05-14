@@ -1,3 +1,4 @@
+from flasgger import Swagger
 from flask import Flask
 
 from app.api.follows_routes import follows_bp
@@ -10,6 +11,8 @@ config = get_config()
 
 app = Flask(__name__)
 app.config.from_object(config)
+
+swagger = Swagger(app)
 
 # 註冊全域錯誤處理器
 register_error_handlers(app)
